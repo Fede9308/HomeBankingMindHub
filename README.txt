@@ -1,0 +1,1 @@
+Este es un proyecto del curso de MindHub Back-End que se realiza en Java utilizando el framework de Springboot
