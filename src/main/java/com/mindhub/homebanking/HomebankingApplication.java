@@ -25,13 +25,21 @@ public class HomebankingApplication {
 
 			Client melba = new Client("26984756","Melba","Morel","melba@mindhub.com" );
 			Client federico = new Client("37638649","Federico","Becerra","fedefbecerra@gmail.com");
-			Account vinn001 = new Account("VIN001", 5000.00, LocalDate.now(), melba);
-			Account vinn002 = new Account("VIN002", 7500.00, LocalDate.now().plusDays(1), melba);
+			Account vinn001 = new Account("VIN001", 5000.00, LocalDate.now());
+			Account vinn002 = new Account("VIN002", 7500.00, LocalDate.now().plusDays(1));
+
 
 			clientRepository.save(melba);
 			clientRepository.save(federico);
+
+			melba.addAccount(vinn001);
+			melba.addAccount(vinn002);
+
 			accountRepository.save(vinn001);
 			accountRepository.save(vinn002);
+
+
+
 		};
 	}
 }
