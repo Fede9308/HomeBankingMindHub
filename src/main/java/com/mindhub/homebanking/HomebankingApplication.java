@@ -27,16 +27,18 @@ public class HomebankingApplication {
 			Client federico = new Client("37638649","Federico","Becerra","fedefbecerra@gmail.com");
 			Account vinn001 = new Account("VIN001", 5000.00, LocalDate.now());
 			Account vinn002 = new Account("VIN002", 7500.00, LocalDate.now().plusDays(1));
-
+			Account vinn003 = new Account("VIN003", 6536.00, LocalDate.now());
 
 			clientRepository.save(melba);
 			clientRepository.save(federico);
 
 			melba.addAccount(vinn001);
 			melba.addAccount(vinn002);
+			federico.addAccount(vinn003);
 
 			accountRepository.save(vinn001);
 			accountRepository.save(vinn002);
+			accountRepository.save(vinn003);
 
 
 
