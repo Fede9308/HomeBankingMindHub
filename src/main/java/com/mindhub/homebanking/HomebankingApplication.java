@@ -32,14 +32,14 @@ public class HomebankingApplication {
 			Account vinn001 = new Account("VIN001", 5000.00, LocalDate.now());
 			Account vinn002 = new Account("VIN002", 7500.00, LocalDate.now().plusDays(1));
 			Account vinn003 = new Account("VIN003", 6536.00, LocalDate.now());
-			Transaction tr001= new Transaction(TransactionType.CREDITO,
+			Transaction tr001= new Transaction(TransactionType.CREDIT,
 											4380.00, "Transacción de MindHub", LocalDate.now());
-			Transaction tr002= new Transaction(TransactionType.DEBITO,
+			Transaction tr002= new Transaction(TransactionType.DEBIT,
 					-1380.00, "Pago subscripción a GymPlus", LocalDate.now());
-			Transaction tr003= new Transaction(TransactionType.CREDITO,
+			Transaction tr003= new Transaction(TransactionType.CREDIT,
 					6290.00, "Transacción de Julia", LocalDate.now());
 
-			Transaction tr004= new Transaction(TransactionType.DEBITO,
+			Transaction tr004= new Transaction(TransactionType.DEBIT,
 					-2640.00, "Pago Alquiler", LocalDate.now());
 			clientRepository.save(melba);
 			clientRepository.save(federico);
