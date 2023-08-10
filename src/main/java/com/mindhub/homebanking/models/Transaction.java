@@ -2,10 +2,7 @@ package com.mindhub.homebanking.models;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDate;
 
 @Entity
@@ -19,17 +16,23 @@ public class Transaction    {
     private Double amount;
     private String description;
     private LocalDate date;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name= "account_id")
+    private Account accountId;
+
 
     public Transaction(){
 
     }
+    public Transaction(TransactionType transactionType, Double amount, String description, LocalDate date){
+        this.type = transactionType;
+        this.amount = amount;
+        this.description = description;
+        this.date= date;
+    }
 
     public Long getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public TransactionType getType() {
@@ -63,4 +66,15 @@ public class Transaction    {
     public void setDate(LocalDate date) {
         this.date = date;
     }
+
+    public Account getAccountId() {
+        return accountId;
+    }
+
+    public void setAccountId(Account accountId) {
+        this.accountId = accountId;
+    }
+
+
+
 }
