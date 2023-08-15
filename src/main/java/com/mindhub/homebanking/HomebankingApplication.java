@@ -22,7 +22,8 @@ public class HomebankingApplication {
 
 	@Bean
 	public CommandLineRunner initData(ClientRepository clientRepository, AccountRepository accountRepository,
-									  TransactionRepository transactionRepository, LoanRepository loanRepository, ClientLoanRepository clientLoanRepository){
+									  TransactionRepository transactionRepository, LoanRepository loanRepository,
+									  ClientLoanRepository clientLoanRepository, CardRepository cardRepository){
 		return (args) -> {
 
 
@@ -55,6 +56,15 @@ public class HomebankingApplication {
 			ClientLoan federicoLoanP = new ClientLoan(100000.0, 20);
 			ClientLoan federicoLoanA = new ClientLoan(200000.0, 36);
 
+			Card tarjetaMelbaDG = new Card("Melba Morel", CardType.DEBIT, CardColor.GOLD,
+					"5894 5689 2317 5396", 832,fechaActual.plusYears(5), fechaActual);
+
+			Card tarjetaMelbaCT = new Card("Melba Morel", CardType.CREDIT, CardColor.TITANIUM,
+					"9872 1568 6237 7396", 174,fechaActual.plusYears(5), fechaActual);
+
+			Card trajetaFedericoCS = new Card("Federico Becerra", CardType.CREDIT, CardColor.SILVER,
+					"7963 8694 2597 9641", 583, fechaActual.plusYears(4), fechaActual.minusYears(1));
+
 			clientRepository.save(melba);
 			clientRepository.save(federico);
 
@@ -80,6 +90,14 @@ public class HomebankingApplication {
 			accountRepository.save(vinn001);
 			accountRepository.save(vinn002);
 			accountRepository.save(vinn003);
+
+			melba.addCard(tarjetaMelbaCT);
+			melba.addCard(tarjetaMelbaDG);
+			federico.addCard(trajetaFedericoCS);
+
+			cardRepository.save(tarjetaMelbaCT);
+			cardRepository.save(tarjetaMelbaDG);
+			cardRepository.save(trajetaFedericoCS);
 
 			vinn001.addTransaction(tr001);
 			vinn001.addTransaction(tr002);
