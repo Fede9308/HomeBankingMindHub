@@ -16,7 +16,7 @@ public class Account {
 
     private Double balance;
 
-    private LocalDate creationDate;
+    private LocalDate date;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="client_id")
@@ -30,11 +30,11 @@ public class Account {
 
     }
 
-    public Account(String number, Double balance, LocalDate creationDate){
+    public Account(String number, Double balance, LocalDate date){
 
         this.number = number;
         this.balance = balance;
-        this.creationDate = creationDate;
+        this.date = date;
 
     }
 
@@ -50,12 +50,12 @@ public class Account {
         this.number = number;
     }
 
-    public LocalDate getCreationDate() {
-        return creationDate;
+    public LocalDate getDate() {
+        return date;
     }
 
-    public void setCreationDate(LocalDate creationDate) {
-        this.creationDate = creationDate;
+    public void setDate(LocalDate date) {
+        this.date = date;
     }
 
     public Double getBalance() {
