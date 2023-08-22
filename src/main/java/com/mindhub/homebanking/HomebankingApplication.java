@@ -27,8 +27,8 @@ public class HomebankingApplication {
 		return (args) -> {
 
 
-			Client melba = new Client("26984756","Melba","Morel","melba@mindhub.com" );
-			Client federico = new Client("37638649","Federico","Becerra","fedefbecerra@gmail.com");
+			Client melba = new Client("26984756","Melba","Morel","melba@mindhub.com","123" );
+			Client federico = new Client("37638649","Federico","Becerra","fedefbecerra@gmail.com","123");
 
 			LocalDate fechaActual = LocalDate.now();
 			Account vinn001 = new Account("VIN001", 5000.00, fechaActual);
