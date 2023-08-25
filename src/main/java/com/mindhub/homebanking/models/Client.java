@@ -37,8 +37,8 @@ public class Client {
 
     }
 
-    public Client(String dni, String firstName, String lastName, String email, String password) {
-        this.dni = dni;
+    public Client( String firstName, String lastName, String email, String password) {
+
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;

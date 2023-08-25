@@ -31,8 +31,8 @@ public class HomebankingApplication {
 		return (args) -> {
 
 
-			Client melba = new Client("26984756","Melba","Morel","melba@mindhub.com", passwordEncoder.encode("123")  );
-			Client federico = new Client("37638649","Federico","Becerra","fedefbecerra@gmail.com",passwordEncoder.encode("123"));
+			Client melba = new Client("Melba","Morel","melba@mindhub.com", passwordEncoder.encode("123")  );
+			Client federico = new Client("Federico","Becerra","fedefbecerra@gmail.com",passwordEncoder.encode("123"));
 
 			LocalDate fechaActual = LocalDate.now();
 			Account vinn001 = new Account("VIN001", 5000.00, fechaActual);
