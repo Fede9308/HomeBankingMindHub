@@ -9,11 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
@@ -51,10 +50,36 @@ public class AccountController {
             }else {
                 return new ResponseEntity<>("Esta cuenta no le pertenece",HttpStatus.I_AM_A_TEAPOT);
             }
-
-
-
-
      }
+
+     @PostMapping("accounts/{id}")
+     public ResponseEntity<Object> createAccount(Authentication authentication) {
+         Client client = clientRepository.findByEmail(authentication.getName());
+
+         if (client.getAccounts().size()>=3){
+             return new ResponseEntity<>("Alcanzo el máximo número de cuentas permitidas", HttpStatus.FORBIDDEN);
+         }
+         Account account = new Account(getAccountNumber(), 0.0, LocalDate.now() );
+         client.addAccount(account);
+         accountRepository.save(account);
+         return new ResponseEntity<>("Cuenta creada con éxito", HttpStatus.CREATED);
+     }
+
+    public int getRandomNumber(int min, int max) {
+
+        return (int) ((Math.random() * (max - min)) + min);
+
+    }
+
+
+    public String getAccountNumber(){
+        String nroCuenta;
+        do {
+            nroCuenta= "VIN-" + String.format("%08d", getRandomNumber(1, 99999999));
+        } while (accountRepository.existsByNumber(nroCuenta));
+        return nroCuenta;
+    }
+
+
 
 }

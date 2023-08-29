@@ -33,6 +33,7 @@ public class HomebankingApplication {
 
 			Client melba = new Client("Melba","Morel","melba@mindhub.com", passwordEncoder.encode("123")  );
 			Client federico = new Client("Federico","Becerra","fedefbecerra@gmail.com",passwordEncoder.encode("123"));
+			Client tomas = new Client("Tomas", "Perez", "tomasperez@mindhub.admin.com", passwordEncoder.encode("123"));
 
 			LocalDate fechaActual = LocalDate.now();
 			Account vinn001 = new Account("VIN001", 5000.00, fechaActual);
@@ -71,6 +72,7 @@ public class HomebankingApplication {
 
 			clientRepository.save(melba);
 			clientRepository.save(federico);
+			clientRepository.save(tomas);
 
 			loanRepository.save(hipotecario);
 			loanRepository.save(personal);
