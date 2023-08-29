@@ -52,7 +52,7 @@ public class AccountController {
             }
      }
 
-     @PostMapping("accounts/{id}")
+     @PostMapping("/clients/current/accounts")
      public ResponseEntity<Object> createAccount(Authentication authentication) {
          Client client = clientRepository.findByEmail(authentication.getName());
 
