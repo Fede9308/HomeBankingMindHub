@@ -9,9 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @SpringBootApplication
@@ -35,13 +33,13 @@ public class HomebankingApplication {
 			Client federico = new Client("Federico","Becerra","fedefbecerra@gmail.com",passwordEncoder.encode("123"));
 			Client tomas = new Client("Tomas", "Perez", "tomasperez@mindhub.admin.com", passwordEncoder.encode("123"));
 
-			LocalDate fechaActual = LocalDate.now();
+			LocalDateTime fechaActual = LocalDateTime.now();
 			Account vinn001 = new Account("VIN001", 5000.00, fechaActual);
 			Account vinn002 = new Account("VIN002", 7500.00, fechaActual.plusDays(1));
 			Account vinn003 = new Account("VIN003", 6536.00, fechaActual);
 
 			Transaction tr001= new Transaction(TransactionType.CREDIT,
-											4380.00, "Transacción de MindHub", LocalDate.now());
+											4380.00, "Transacción de MindHub", LocalDateTime.now());
 			Transaction tr002= new Transaction(TransactionType.DEBIT,
 					-1380.00, "Pago subscripción a GymPlus", fechaActual);
 			Transaction tr003= new Transaction(TransactionType.CREDIT,

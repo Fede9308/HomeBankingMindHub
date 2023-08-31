@@ -16,7 +16,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import static java.util.stream.Collectors.toList;
 
@@ -105,8 +105,8 @@ public class TransactionController {
             return new ResponseEntity<>("Saldo insufuciente",HttpStatus.FORBIDDEN);
         }
 
-        Transaction debitTransaction = new Transaction(TransactionType.DEBIT,amount,description, LocalDate.now());
-        Transaction creditTransaction = new Transaction(TransactionType.CREDIT, amount, description, LocalDate.now());
+        Transaction debitTransaction = new Transaction(TransactionType.DEBIT,amount,description, LocalDateTime.now());
+        Transaction creditTransaction = new Transaction(TransactionType.CREDIT, amount, description, LocalDateTime.now());
 
         Account debitAccount = accountRepository.findByNumber(fromAccountNumber);
         debitAccount.addTransaction(debitTransaction);

@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 import static java.util.stream.Collectors.toList;
@@ -49,7 +50,7 @@ public class CardController {
         }
 
         Card card = new Card(client.getFirstName()+" "+client.getLastName(),
-                cardType, cardColor, getCardNumber(), getCardCvv(), LocalDate.now().plusYears(5), LocalDate.now());
+                cardType, cardColor, getCardNumber(), getCardCvv(), LocalDateTime.now().plusYears(5), LocalDateTime.now());
 
         client.addCard(card);
         cardRepository.save(card);

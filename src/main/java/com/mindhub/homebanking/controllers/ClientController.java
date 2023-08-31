@@ -12,9 +12,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 import static java.util.stream.Collectors.toList;
@@ -68,7 +67,7 @@ public class ClientController {
         /*clientRepository.save(new Client(firstName, lastName, email,passwordEncoder.encode(password)));*/
         Client client = new Client(firstName, lastName, email,passwordEncoder.encode(password));
         clientRepository.save(client);
-        Account account = new Account(accountController.getAccountNumber(), 0.0, LocalDate.now());
+        Account account = new Account(accountController.getAccountNumber(), 0.0, LocalDateTime.now());
         client.addAccount(account);
         accountRepository.save(account);
 

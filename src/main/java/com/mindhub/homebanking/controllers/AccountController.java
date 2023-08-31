@@ -11,7 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
@@ -58,7 +58,7 @@ public class AccountController {
          if (client.getAccounts().size()>=3){
              return new ResponseEntity<>("Alcanzo el máximo número de cuentas permitidas", HttpStatus.FORBIDDEN);
          }
-         Account account = new Account(getAccountNumber(), 0.0, LocalDate.now() );
+         Account account = new Account(getAccountNumber(), 0.0, LocalDateTime.now() );
          client.addAccount(account);
          accountRepository.save(account);
          return new ResponseEntity<>("Cuenta creada con éxito", HttpStatus.CREATED);

@@ -3,7 +3,7 @@ package com.mindhub.homebanking.models;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 public class Card {
@@ -23,9 +23,9 @@ public class Card {
 
     private Integer cvv;
 
-    private LocalDate thruDate;
+    private LocalDateTime thruDate;
 
-    private LocalDate fromDate;
+    private LocalDateTime fromDate;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="client_id")
@@ -37,7 +37,7 @@ public class Card {
 
     public Card(String cardHolder, CardType type,
                 CardColor color, String number, Integer cvv,
-                LocalDate thruDate, LocalDate fromDate) {
+                LocalDateTime thruDate, LocalDateTime fromDate) {
         this.cardHolder = cardHolder;
         this.type = type;
         this.color = color;
@@ -91,19 +91,19 @@ public class Card {
         this.cvv = cvv;
     }
 
-    public LocalDate getThruDate() {
+    public LocalDateTime getThruDate() {
         return thruDate;
     }
 
-    public void setThruDate(LocalDate thruDate) {
+    public void setThruDate(LocalDateTime thruDate) {
         this.thruDate = thruDate;
     }
 
-    public LocalDate getFromDate() {
+    public LocalDateTime getFromDate() {
         return fromDate;
     }
 
-    public void setFromDate(LocalDate fromDate) {
+    public void setFromDate(LocalDateTime fromDate) {
         this.fromDate = fromDate;
     }
 
