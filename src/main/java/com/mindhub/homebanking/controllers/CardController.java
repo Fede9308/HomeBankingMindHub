@@ -1,6 +1,7 @@
 package com.mindhub.homebanking.controllers;
 
 
+import com.mindhub.homebanking.dtos.CardDTO;
 import com.mindhub.homebanking.models.Card;
 import com.mindhub.homebanking.models.CardColor;
 import com.mindhub.homebanking.models.CardType;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Set;
 import static java.util.stream.Collectors.toList;
 
@@ -54,6 +56,15 @@ public class CardController {
         return new ResponseEntity<>("Tarjeta creada con éxito", HttpStatus.CREATED);
 
 
+    }
+
+    @RequestMapping("/clients/current/cards")
+    public List<CardDTO> getCurrentCards(Authentication authentication){
+        Client client = clientRepository.findByEmail(authentication.getName());
+        List<CardDTO> currentCards = client.getCards().stream()
+                                                        .map(CardDTO::new)
+                                                        .collect(toList());
+        return currentCards;
     }
 
 

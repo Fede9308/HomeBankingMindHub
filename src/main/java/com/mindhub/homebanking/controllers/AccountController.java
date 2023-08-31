@@ -12,7 +12,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
@@ -71,6 +70,14 @@ public class AccountController {
 
     }
 
+    @RequestMapping("/clients/current/accounts")
+    public List<AccountDTO> getCurrentAccounts(Authentication authentication){
+        Client client = clientRepository.findByEmail(authentication.getName());
+        List<AccountDTO> currentAccounts = client.getAccounts().stream()
+                                                                .map(AccountDTO::new)
+                                                                .collect(toList());
+        return currentAccounts;
+    }
 
     public String getAccountNumber(){
         String nroCuenta;
