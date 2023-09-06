@@ -46,7 +46,7 @@ public class CardController {
                             .filter(card -> card.getColor().equals(cardColor))
                             .collect(toList()).isEmpty()) {
 
-            return new ResponseEntity<>("Ya posee una tarjeta de est tipo", HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>("Ya posee una tarjeta de este tipo", HttpStatus.FORBIDDEN);
         }
 
         Card card = new Card(client.getFirstName()+" "+client.getLastName(),

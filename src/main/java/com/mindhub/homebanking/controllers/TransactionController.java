@@ -78,9 +78,9 @@ public class TransactionController {
         if (amount <= 0.0){
             return new ResponseEntity<>("El monto debe ser mayo a 0", HttpStatus.FORBIDDEN);
         }
-        if (fromAccountNumber.equals("VIN")){
-            return new ResponseEntity<>("El número de la cuenta de origen no fue ingresado", HttpStatus.FORBIDDEN);
-        }
+//        if (fromAccountNumber.equals("VIN")){
+//            return new ResponseEntity<>("El número de la cuenta de origen no fue ingresado", HttpStatus.FORBIDDEN);
+//        }
         if (toAccountNumber.equals("VIN")){
             return new ResponseEntity<>("El número de la cuenta de destino no fue ingresado", HttpStatus.FORBIDDEN);
         }
