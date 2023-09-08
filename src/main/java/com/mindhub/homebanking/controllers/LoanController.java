@@ -4,8 +4,11 @@ package com.mindhub.homebanking.controllers;
 import com.mindhub.homebanking.dtos.LoanApplicationDTO;
 import com.mindhub.homebanking.dtos.LoanDTO;
 import com.mindhub.homebanking.models.Account;
+import com.mindhub.homebanking.models.Client;
 import com.mindhub.homebanking.models.Loan;
 import com.mindhub.homebanking.repositories.LoanRepository;
+import com.mindhub.homebanking.services.AccountService;
+import com.mindhub.homebanking.services.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -40,7 +43,11 @@ public class LoanController {
         return  new LoanDTO(loan);
     }
 
+    @Autowired
+    private AccountService accountService;
 
+    @Autowired
+    private ClientService clientService;
 
     @Transactional
     @PostMapping("/loans")
@@ -59,12 +66,28 @@ public class LoanController {
         }
 
         if(loanApplicationDTO.getAmount() == 0) {
-            return new ResponseEntity<>("El monto soliciado no fue ingresado", HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>("Monto soliciado no ingresado", HttpStatus.FORBIDDEN);
         }
         //403 forbidden, si la cuenta de destino no existe
-       // Account account = .findByNumber(loanApplicationDTO.getToAccountNumber());
+       Account account = accountService.findByNumber(loanApplicationDTO.getToAccountNumber());
+        if (account == null){
+            return new ResponseEntity<>("La cuenta no existe", HttpStatus.FORBIDDEN);
+        }
 
-       //
+        //403 forbidden, si la cuenta de destino no
+        //pertenece al cliente autenticado
+
+        Client client = clientService.findByEmail(authentication.getName());
+        if (!accountService.existsByNumberAndClientId(account.getNumber(), client)) {
+            return new ResponseEntity<>("La cuenta de destino no pertenece al cliente autenticado",
+                    HttpStatus.FORBIDDEN);
+        }
+
+        // 403 forbidden, si el préstamo no existe
+        if(!loanService.existsById(loanApplicationDTO.getLoanId())) {
+            return new ResponseEntity<>("El prestamo seleccionado no existe", HttpStatus.FORBIDDEN);
+        }
+
     }
 
 

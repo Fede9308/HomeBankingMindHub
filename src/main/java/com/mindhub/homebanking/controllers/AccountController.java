@@ -3,8 +3,9 @@ package com.mindhub.homebanking.controllers;
 import com.mindhub.homebanking.dtos.AccountDTO;
 import com.mindhub.homebanking.models.Account;
 import com.mindhub.homebanking.models.Client;
-import com.mindhub.homebanking.repositories.AccountRepository;
+//import com.mindhub.homebanking.repositories.AccountRepository;
 import com.mindhub.homebanking.repositories.ClientRepository;
+import com.mindhub.homebanking.services.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,16 +22,12 @@ import static java.util.stream.Collectors.toList;
 public class AccountController {
 
     @Autowired
-    private AccountRepository accountRepository;
+    private AccountService accountService;
 
     @GetMapping("/accounts")
     public List<AccountDTO> getAccounts(){
-        List<Account> allAccounts = accountRepository.findAll();
 
-        List<AccountDTO> accountsDTOList = allAccounts.stream()
-                                                .map(AccountDTO::new)
-                                                .collect(toList());
-        return accountsDTOList;
+        return accountService.getAccountsDTO();
     }
 
     @Autowired
@@ -39,7 +36,7 @@ public class AccountController {
      @GetMapping("accounts/{id}")
     public ResponseEntity<Object> getAccountById(@PathVariable Long id, Authentication authentication){
             Client client = clientRepository.findByEmail(authentication.getName());
-            Account account = accountRepository.findById(id).orElse(null);
+            Account account = accountService.findById(id);
             if (account == null){
                 return new ResponseEntity<>("Cuenta no encontrada",HttpStatus.BAD_GATEWAY);
             }
@@ -60,7 +57,8 @@ public class AccountController {
          }
          Account account = new Account(getAccountNumber(), 0.0, LocalDateTime.now() );
          client.addAccount(account);
-         accountRepository.save(account);
+         //accountRepository.save(account);
+         accountService.save(account);
          return new ResponseEntity<>("Cuenta creada con éxito", HttpStatus.CREATED);
      }
 
@@ -83,7 +81,7 @@ public class AccountController {
         String nroCuenta;
         do {
             nroCuenta= "VIN-" + String.format("%08d", getRandomNumber(1, 99999999));
-        } while (accountRepository.existsByNumber(nroCuenta));
+        } while (accountService.existsByNumber(nroCuenta));
         return nroCuenta;
     }
 

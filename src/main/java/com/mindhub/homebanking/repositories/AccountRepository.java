@@ -10,7 +10,13 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 public interface AccountRepository  extends JpaRepository<Account, Long> {
     boolean existsByNumber(String accountNumber);
 
+
+
     Account findByNumber(String accountNumber);
 
+    boolean existByNumberAndClientId(String accountNumber, Client clientId);
+
     Account findByNumberAndClientId(String accountNumber, Client clientId);
+
+    Account findByIdAndClientId(Long id, Client clientId);
 }
