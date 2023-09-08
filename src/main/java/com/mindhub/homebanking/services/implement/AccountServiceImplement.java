@@ -48,7 +48,7 @@ public class AccountServiceImplement implements AccountService {
 
         @Override
         public boolean existsByNumberAndClientId(String accountNumber, Client clientId){
-            return accountRepository.existByNumberAndClientId(accountNumber, clientId);
+            return accountRepository.existsByNumberAndClientId(accountNumber, clientId);
         }
         @Override
         public Account findById(Long id){

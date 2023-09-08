@@ -15,8 +15,6 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static java.util.stream.Collectors.toList;
-
 @RestController
 @RequestMapping("/api")
 public class LoanController {
@@ -54,6 +52,17 @@ public class LoanController {
     @Autowired
     private TransactionService transactionService;
 
+//    Debe recibir un objeto de solicitud de crédito con los datos del préstamo
+//    Verificar que los datos sean correctos, es decir no estén vacíos, que el monto no sea 0 o que las cuotas no sean 0.
+//    Verificar que el préstamo exista
+//    Verificar que el monto solicitado no exceda el monto máximo del préstamo
+//    Verifica que la cantidad de cuotas se encuentre entre las disponibles del préstamo
+//    Verificar que la cuenta de destino exista
+//    Verificar que la cuenta de destino pertenezca al cliente autenticado
+//    Se debe crear una solicitud de préstamo con el monto solicitado sumando el 20% del mismo
+//    Se debe crear una transacción “CREDIT” asociada a la cuenta de destino (el monto debe quedar positivo) con la descripción concatenando el nombre del préstamo y la frase “loan approved”
+//    Se debe actualizar la cuenta de destino sumando el monto solicitado.
+
     @Transactional
     @PostMapping("/loans")
     public ResponseEntity<Object> loanMaker(@RequestBody LoanApplicationDTO loanApplicationDTO,
@@ -73,14 +82,10 @@ public class LoanController {
         if(loanApplicationDTO.getAmount() == 0) {
             return new ResponseEntity<>("Monto soliciado no ingresado", HttpStatus.FORBIDDEN);
         }
-        //403 forbidden, si la cuenta de destino no existe
        Account account = accountService.findByNumber(loanApplicationDTO.getToAccountNumber());
         if (account == null){
             return new ResponseEntity<>("La cuenta no existe", HttpStatus.FORBIDDEN);
         }
-
-        //403 forbidden, si la cuenta de destino no
-        //pertenece al cliente autenticado
 
         Client client = clientService.findByEmail(authentication.getName());
         if (!accountService.existsByNumberAndClientId(account.getNumber(), client)) {
@@ -88,16 +93,9 @@ public class LoanController {
                     HttpStatus.FORBIDDEN);
         }
 
-        // 403 forbidden, si el préstamo no existe
         if(!loanService.existsById(loanApplicationDTO.getLoanId())) {
             return new ResponseEntity<>("El prestamo ingresado no existe", HttpStatus.FORBIDDEN);
         }
-
-        //------------------------------------------------------
-
-        //403 forbidden, si el monto solicitado supera el
-        //monto máximo permitido del préstamo
-        //solicitado
 
         Loan loan = loanService.findById(loanApplicationDTO.getLoanId());
 
@@ -106,15 +104,10 @@ public class LoanController {
                     "tipo " + loan.getName(), HttpStatus.FORBIDDEN);
         }
 
-        //403 forbidden, si la cantidad de cuotas no está
-        //disponible para el préstamo solicitado
-
         if (!loan.getPayments().contains(loanApplicationDTO.getPayments())) {
             return new ResponseEntity<>("La cantidad de cuotas no esta diponible para el prestamo de tipo " +
                     loan.getName(), HttpStatus.FORBIDDEN);
         }
-
-        //Se debe crear una solicitud de préstamo con el monto solicitado sumando el 20% del mismo
 
 
 
@@ -125,7 +118,6 @@ public class LoanController {
         loan.addClientLoans(makeLoan);
         clientLoanService.save(makeLoan);
 
-        //Se debe crear una transacción “CREDIT” asociada a la cuenta de destino (el monto debe quedar positivo) con la descripción concatenando el nombre del préstamo y la frase “loan approved”
 
         Transaction loanTransaction = new Transaction(TransactionType.CREDIT, loanApplicationDTO.getAmount(),
                 loan.getName()
@@ -135,8 +127,6 @@ public class LoanController {
         transactionService.save(loanTransaction);
 
 
-
-        //Se debe actualizar la cuenta de destino sumando el monto solicitado.
 
         double accountBalance = account.getBalance();
         account.setBalance(accountBalance + loanApplicationDTO.getAmount());
