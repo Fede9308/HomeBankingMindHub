@@ -29,7 +29,7 @@ public class HomebankingApplication {
 		return (args) -> {
 
 
-			Client melba = new Client("Melba","Morel","melba@mindhub.com", passwordEncoder.encode("123")  );
+			/*Client melba = new Client("Melba","Morel","melba@mindhub.com", passwordEncoder.encode("123")  );
 			Client federico = new Client("Federico","Becerra","fedefbecerra@gmail.com",passwordEncoder.encode("123"));
 			Client tomas = new Client("Tomas", "Perez", "tomasperez@mindhub.admin.com", passwordEncoder.encode("123"));
 
@@ -117,7 +117,7 @@ public class HomebankingApplication {
 			clientLoanRepository.save(melbaLoanH);
 			clientLoanRepository.save(melbaLoanP);
 			clientLoanRepository.save(federicoLoanA);
-			clientLoanRepository.save(federicoLoanP);
+			clientLoanRepository.save(federicoLoanP);*/
 
 
 
