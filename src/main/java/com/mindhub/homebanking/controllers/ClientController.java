@@ -56,7 +56,7 @@ public class ClientController {
     @Autowired
     private AccountController accountController;
 
-    @RequestMapping(path = "/clients", method = RequestMethod.POST)
+    @PostMapping("/clients")
     public ResponseEntity<Object> register(
         @RequestParam String firstName, @RequestParam String lastName,
         @RequestParam String email, @RequestParam String password){
@@ -71,7 +71,7 @@ public class ClientController {
         /*clientRepository.save(new Client(firstName, lastName, email,passwordEncoder.encode(password)));*/
         Client client = new Client(firstName, lastName, email,passwordEncoder.encode(password));
         clientService.save(client);
-        Account account = new Account(accountController.getAccountNumber(), 0.0, LocalDateTime.now());
+        Account account = new Account(accountService.getAccountNumber(), 0.0, LocalDateTime.now());
         client.addAccount(account);
         accountService.save(account);
 
@@ -79,8 +79,7 @@ public class ClientController {
     }
 
 
-
-    @RequestMapping("/clients/current")
+    @GetMapping("/clients/current")
     public ClientDTO getAll(Authentication authentication){
 
         return new ClientDTO(clientService.findByEmail(authentication.getName()));

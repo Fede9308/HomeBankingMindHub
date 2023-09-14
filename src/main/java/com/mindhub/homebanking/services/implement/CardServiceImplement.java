@@ -3,6 +3,8 @@ package com.mindhub.homebanking.services.implement;
 import com.mindhub.homebanking.models.Card;
 import com.mindhub.homebanking.repositories.CardRepository;
 import com.mindhub.homebanking.services.CardService;
+import com.mindhub.homebanking.utils.AccountUtils;
+import com.mindhub.homebanking.utils.CardUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,8 +28,22 @@ public class CardServiceImplement implements CardService {
     public void save(Card card){
         cardRepository.save(card);
     }
-
-
+    @Override
+    public String getCardNumber() {
+        String numberCard;
+        do {
+           numberCard = CardUtils.getRandomCardNumber();
+        } while (existsByNumber(numberCard));
+        return numberCard;
+    }
+    @Override
+    public int getCardCvv() {
+        int cardCvv;
+        do {
+            cardCvv = CardUtils.getRandomCardCvv();
+        } while (existsByCvv(cardCvv));
+        return cardCvv;
+    }
 
 
 }

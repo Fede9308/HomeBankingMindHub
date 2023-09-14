@@ -20,6 +20,6 @@ public interface AccountService {
 
     boolean existsByNumberAndClientId(String accountNumber, Client client);
 
-
+    String getAccountNumber();
 
 }

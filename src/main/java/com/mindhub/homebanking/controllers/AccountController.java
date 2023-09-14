@@ -4,7 +4,7 @@ import com.mindhub.homebanking.dtos.AccountDTO;
 import com.mindhub.homebanking.models.Account;
 import com.mindhub.homebanking.models.Client;
 //import com.mindhub.homebanking.repositories.AccountRepository;
-import com.mindhub.homebanking.repositories.ClientRepository;
+//import com.mindhub.homebanking.repositories.ClientRepository;
 import com.mindhub.homebanking.services.AccountService;
 import com.mindhub.homebanking.services.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,10 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
-
 import java.time.LocalDateTime;
 import java.util.List;
-
 import static java.util.stream.Collectors.toList;
 
 @RestController
@@ -48,7 +46,6 @@ public class AccountController {
                 return new ResponseEntity<>("Esta cuenta no le pertenece",HttpStatus.I_AM_A_TEAPOT);
             }
      }
-
      @PostMapping("/clients/current/accounts")
      public ResponseEntity<Object> createAccount(Authentication authentication) {
          Client client = clientService.findByEmail(authentication.getName());
@@ -56,19 +53,12 @@ public class AccountController {
          if (client.getAccounts().size()>=3){
              return new ResponseEntity<>("Alcanzo el máximo número de cuentas permitidas", HttpStatus.FORBIDDEN);
          }
-         Account account = new Account(getAccountNumber(), 0.0, LocalDateTime.now() );
+         Account account = new Account(accountService.getAccountNumber(), 0.0, LocalDateTime.now() );
          client.addAccount(account);
          //accountRepository.save(account);
          accountService.save(account);
          return new ResponseEntity<>("Cuenta creada con éxito", HttpStatus.CREATED);
      }
-
-    public int getRandomNumber(int min, int max) {
-
-        return (int) ((Math.random() * (max - min)) + min);
-
-    }
-
     @RequestMapping("/clients/current/accounts")
     public List<AccountDTO> getCurrentAccounts(Authentication authentication){
         Client client = clientService.findByEmail(authentication.getName());
@@ -77,15 +67,5 @@ public class AccountController {
                                                                 .collect(toList());
         return currentAccounts;
     }
-
-    public String getAccountNumber(){
-        String nroCuenta;
-        do {
-            nroCuenta= "VIN-" + String.format("%08d", getRandomNumber(1, 99999999));
-        } while (accountService.existsByNumber(nroCuenta));
-        return nroCuenta;
-    }
-
-
 
 }

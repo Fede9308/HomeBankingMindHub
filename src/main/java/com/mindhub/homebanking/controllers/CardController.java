@@ -12,10 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
@@ -48,7 +46,7 @@ public class CardController {
         }
 
         Card card = new Card(client.getFirstName()+" "+client.getLastName(),
-                cardType, cardColor, getCardNumber(), getCardCvv(), LocalDateTime.now().plusYears(5), LocalDateTime.now());
+                cardType, cardColor, cardService.getCardNumber(), cardService.getCardCvv(), LocalDateTime.now().plusYears(5), LocalDateTime.now());
 
         client.addCard(card);
         cardService.save(card);
@@ -56,8 +54,7 @@ public class CardController {
 
 
     }
-
-    @RequestMapping("/clients/current/cards")
+    @GetMapping("/clients/current/cards")
     public List<CardDTO> getCurrentCards(Authentication authentication){
         Client client = clientService.findByEmail(authentication.getName());
         List<CardDTO> currentCards = client.getCards().stream()
@@ -65,31 +62,5 @@ public class CardController {
                                                         .collect(toList());
         return currentCards;
     }
-
-
-    public int getRandomNumber(int min, int max) {
-        return (int) ((Math.random() * (max - min)) + min);
-    }
-
-    public String getCardNumber() {
-        String numberCard;
-        do {
-            numberCard = String.format("%04d", getRandomNumber(1, 9999))
-                                        + "-" + String.format("%04d", getRandomNumber(1, 9999))
-                                        + "-" + String.format("%04d", getRandomNumber(1, 9999))
-                                        + "-" + String.format("%04d", getRandomNumber(1, 9999));
-        } while (cardService.existsByNumber(numberCard));
-        return numberCard;
-    }
-
-    public int getCardCvv() {
-        int cardCvv;
-        do {
-            cardCvv = getRandomNumber(100, 999);
-        } while (cardService.existsByCvv(cardCvv));
-        return cardCvv;
-    }
-
-
 
 }

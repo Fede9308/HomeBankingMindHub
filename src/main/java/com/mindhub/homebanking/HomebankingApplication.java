@@ -2,6 +2,7 @@ package com.mindhub.homebanking;
 
 import com.mindhub.homebanking.models.*;
 import com.mindhub.homebanking.repositories.*;
+import com.mindhub.homebanking.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -19,7 +20,7 @@ public class HomebankingApplication {
 		SpringApplication.run(HomebankingApplication.class, args);
 	}
 
-	@Autowired
+/*	@Autowired
 	PasswordEncoder passwordEncoder;
 
 	@Bean
@@ -29,7 +30,7 @@ public class HomebankingApplication {
 		return (args) -> {
 
 
-			/*Client melba = new Client("Melba","Morel","melba@mindhub.com", passwordEncoder.encode("123")  );
+			Client melba = new Client("Melba","Morel","melba@mindhub.com", passwordEncoder.encode("123")  );
 			Client federico = new Client("Federico","Becerra","fedefbecerra@gmail.com",passwordEncoder.encode("123"));
 			Client tomas = new Client("Tomas", "Perez", "tomasperez@mindhub.admin.com", passwordEncoder.encode("123"));
 
@@ -117,10 +118,10 @@ public class HomebankingApplication {
 			clientLoanRepository.save(melbaLoanH);
 			clientLoanRepository.save(melbaLoanP);
 			clientLoanRepository.save(federicoLoanA);
-			clientLoanRepository.save(federicoLoanP);*/
+			clientLoanRepository.save(federicoLoanP);
 
 
 
 		};
-	}
+	}*/
 }

@@ -9,5 +9,7 @@ public interface CardService {
     boolean existsByCvv(Integer cardCvv);
     boolean existsByNumber(String cardNumber);
     void save(Card card);
+    String getCardNumber();
+    int getCardCvv();
 
 }
