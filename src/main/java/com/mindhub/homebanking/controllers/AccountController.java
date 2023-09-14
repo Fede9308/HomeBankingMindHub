@@ -6,6 +6,7 @@ import com.mindhub.homebanking.models.Client;
 //import com.mindhub.homebanking.repositories.AccountRepository;
 import com.mindhub.homebanking.repositories.ClientRepository;
 import com.mindhub.homebanking.services.AccountService;
+import com.mindhub.homebanking.services.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,11 +32,11 @@ public class AccountController {
     }
 
     @Autowired
-    private ClientRepository clientRepository;
+    private ClientService clientService;
 
      @GetMapping("accounts/{id}")
     public ResponseEntity<Object> getAccountById(@PathVariable Long id, Authentication authentication){
-            Client client = clientRepository.findByEmail(authentication.getName());
+            Client client = clientService.findByEmail(authentication.getName());
             Account account = accountService.findById(id);
             if (account == null){
                 return new ResponseEntity<>("Cuenta no encontrada",HttpStatus.BAD_GATEWAY);
@@ -50,7 +51,7 @@ public class AccountController {
 
      @PostMapping("/clients/current/accounts")
      public ResponseEntity<Object> createAccount(Authentication authentication) {
-         Client client = clientRepository.findByEmail(authentication.getName());
+         Client client = clientService.findByEmail(authentication.getName());
 
          if (client.getAccounts().size()>=3){
              return new ResponseEntity<>("Alcanzo el máximo número de cuentas permitidas", HttpStatus.FORBIDDEN);
@@ -70,7 +71,7 @@ public class AccountController {
 
     @RequestMapping("/clients/current/accounts")
     public List<AccountDTO> getCurrentAccounts(Authentication authentication){
-        Client client = clientRepository.findByEmail(authentication.getName());
+        Client client = clientService.findByEmail(authentication.getName());
         List<AccountDTO> currentAccounts = client.getAccounts().stream()
                                                                 .map(AccountDTO::new)
                                                                 .collect(toList());

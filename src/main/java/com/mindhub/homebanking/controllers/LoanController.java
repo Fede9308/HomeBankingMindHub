@@ -86,38 +86,28 @@ public class LoanController {
         if (account == null){
             return new ResponseEntity<>("La cuenta no existe", HttpStatus.FORBIDDEN);
         }
-
         Client client = clientService.findByEmail(authentication.getName());
         if (!accountService.existsByNumberAndClientId(account.getNumber(), client)) {
             return new ResponseEntity<>("La cuenta de destino debe pertenecer al cliente autenticado",
                     HttpStatus.FORBIDDEN);
         }
-
         if(!loanService.existsById(loanApplicationDTO.getLoanId())) {
             return new ResponseEntity<>("El prestamo ingresado no existe", HttpStatus.FORBIDDEN);
         }
-
         Loan loan = loanService.findById(loanApplicationDTO.getLoanId());
 
         if (loanApplicationDTO.getAmount() > loan.getMaxAmount()) {
             return new ResponseEntity<>("El monto solocitado es mayor al monto disponible para el prestamo de " +
                     "tipo " + loan.getName(), HttpStatus.FORBIDDEN);
         }
-
         if (!loan.getPayments().contains(loanApplicationDTO.getPayments())) {
             return new ResponseEntity<>("La cantidad de cuotas no esta diponible para el prestamo de tipo " +
                     loan.getName(), HttpStatus.FORBIDDEN);
         }
-
-
-
         ClientLoan makeLoan = new ClientLoan(loanApplicationDTO.getAmount() * 1.2, loanApplicationDTO.getPayments());
-
-
         client.addLoans(makeLoan);
         loan.addClientLoans(makeLoan);
         clientLoanService.save(makeLoan);
-
 
         Transaction loanTransaction = new Transaction(TransactionType.CREDIT, loanApplicationDTO.getAmount(),
                 loan.getName()
@@ -126,17 +116,11 @@ public class LoanController {
         account.addTransaction(loanTransaction);
         transactionService.save(loanTransaction);
 
-
-
         double accountBalance = account.getBalance();
         account.setBalance(accountBalance + loanApplicationDTO.getAmount());
         accountService.save(account);
 
-
-
         return new ResponseEntity<>("Todo ok", HttpStatus.ACCEPTED);
-
-
 
     }
 

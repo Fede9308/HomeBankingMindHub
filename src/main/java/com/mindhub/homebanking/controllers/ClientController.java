@@ -5,6 +5,7 @@ import com.mindhub.homebanking.models.Account;
 import com.mindhub.homebanking.models.Client;
 //import com.mindhub.homebanking.repositories.ClientRepository;
 import com.mindhub.homebanking.repositories.AccountRepository;
+import com.mindhub.homebanking.services.AccountService;
 import com.mindhub.homebanking.services.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -50,7 +51,7 @@ public class ClientController {
     private PasswordEncoder passwordEncoder;
 
     @Autowired
-    private AccountRepository accountRepository;
+    private AccountService accountService;
 
     @Autowired
     private AccountController accountController;
@@ -72,7 +73,7 @@ public class ClientController {
         clientService.save(client);
         Account account = new Account(accountController.getAccountNumber(), 0.0, LocalDateTime.now());
         client.addAccount(account);
-        accountRepository.save(account);
+        accountService.save(account);
 
         return new ResponseEntity<>( HttpStatus.CREATED);
     }
